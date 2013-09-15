@@ -130,9 +130,36 @@ class Taggregator_Twitter {
 
 		$response = wp_remote_get( add_query_arg( $args, self::API_BASE ), $request_args );
 		$data     = json_decode( wp_remote_retrieve_body( $response ) );
+		$this->create_posts( $data->statuses );
 
+	}
 
-		// Now, do something with $data.
+	function create_posts( $tweets = array() ) {
+		if ( empty( $tweets ) ) return;
+
+		foreach( $tweets as $tweet ) {
+			$this->create_post( $tweet );
+		}
+	}
+
+	function create_post( $tweet ) {
+		if ( $tweet->entities->hashtags && $hashtags = wp_list_pluck( $tweet->entities->hashtags, 'text' ) ) {
+			$hashtags = array_map( array( $this, 'prefix_with_hashtag' ), $hashtags );
+		}
+		$tweet_url = sprintf( 'https://twitter.com/%1$s/status/%2$s', $tweet->user->id_str, $tweet->id_str );
+
+		$post_id = wp_insert_post( array(
+			'post_type' => Taggregator::POST_TYPE,
+			'post_status' => 'publish',
+			'post_content' => $tweet_url,
+			'post_excerpt' => $tweet->text,
+			'tags_input' => $hashtags ? implode( ', ', $hashtags ) : '';
+		) );
+
+		set_post_format(  $post_id, 'status' );
+		update_post_meta( $post_id, 'raw',       json_encode( $tweet ) );
+		update_post_meta( $post_id, 'tweet_id',  $tweet->id_str        );
+		update_post_meta( $post_id, 'tweet_url', $tweet_url            );
 	}
 
 	static function prefix_with_hashtag( $string ) {
