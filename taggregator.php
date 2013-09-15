@@ -69,14 +69,14 @@ class Taggregator {
 			'taggregator',
 			esc_html__( 'Taggregator Social Media Aggregator', 'taggregator' ),
 			array( $this, 'taggregator_settings_section' ),
-			'general'
+			'discussion'
 		);
 
 		add_settings_field(
 			'taggregator_active',
 			sprintf( '<label for="taggregator_active">%1$s</label>', __( 'Actively Scraping?', 'taggregator' ) ),
 			array( $this, 'taggregator_active_cb' ),
-			'general',
+			'discussion',
 			'taggregator'
 		);
 
@@ -84,11 +84,11 @@ class Taggregator {
 			'taggregator_tag',
 			sprintf( '<label for="taggregator_tag">%1$s</label>', __( 'Tag:', 'taggregator' ) ),
 			array( $this, 'taggregator_tag_cb' ),
-			'general',
+			'discussion',
 			'taggregator'
 		);
 
-		register_setting( 'general', 'taggregator_options', array( $this, 'sanitize_options' ) );
+		register_setting( 'discussion', 'taggregator_options', array( $this, 'sanitize_options' ) );
 	}
 
 	function taggregator_settings_section() {
