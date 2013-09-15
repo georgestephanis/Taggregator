@@ -157,7 +157,7 @@ class Taggregator_Twitter {
 
 		$post_id = wp_insert_post( array(
 			'post_type'     => Taggregator::POST_TYPE,
-			'post_status'   => 'publish',
+			'post_status'   => empty( $tweet->retweeted_status ) ? 'publish' : 'draft',
 			'post_date_gmt' => gmdate( 'Y-m-d H:i:s', strtotime( $tweet->created_at ) ),
 			'post_title'    => $tweet->text,
 			'post_content'  => $tweet_url,
