@@ -140,6 +140,7 @@ class Taggregator_Twitter {
 
 		$data = json_decode( wp_remote_retrieve_body( $response ) );
 
+		// Now, do something with $data.
 	}
 
 }
