@@ -75,6 +75,30 @@ class Taggregator_Twitter {
 		return $options;
 	}
 
+	function get_bearer_token() {
+		$consumer_key    = urlencode( $this->get_option( 'twitter_consumer_key' ) );
+		$consumer_secret = urlencode( $this->get_option( 'twitter_consumer_secret' ) );
+		$credentials     = base64_encode( sprintf( '%1$s:%2$s', $consumer_key, $consumer_secret ) );
+
+		$args = array(
+			'body'    => 'grant_type=client_credentials',
+			'headers' => array(
+				'Authorization' => sprintf( 'Basic %s', $credentials ),
+				'Content-Type'  => 'application/x-www-form-urlencoded;charset=UTF-8',
+			),
+		);
+
+		$response = wp_remote_post( 'https://api.twitter.com/oauth2/token', $args );
+
+		$data = json_decode( wp_remote_retrieve_body( $response ) );
+
+		if ( 'bearer' == $data->token_type ) {
+			return $this->bearer_token = $data->access_token;
+		} else {
+			error_log( 'Error in ' . __FILE__ . '@' . __LINE__ . '! Data: ' . json_encode( $data ) );
+		}
+	}
+
 	function fetch( $max_id = null, $since_id = null ) {
 		$args = array(
 			'q'           => $this->get_option( 'tag' ),
