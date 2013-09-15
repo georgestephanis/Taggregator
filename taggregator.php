@@ -19,10 +19,10 @@ class Taggregator {
 	function __construct() {
 		self::$instance = $this;
 
-		add_action( 'taggregator_cron', array( $this, 'fetch' )          );
-		add_action( 'init',             array( $this, 'load_providers' ) );
-		add_action( 'admin_init',       array( $this, 'admin_init' )     );
+		add_action( 'taggregator_cron', array( $this, 'fetch' )              );
+		add_action( 'init',             array( $this, 'load_providers' )     );
 		add_action( 'init',             array( $this, 'register_post_type' ) );
+		add_action( 'admin_init',       array( $this, 'admin_init' )         );
 	}
 
 	function get_option( $key ) {
