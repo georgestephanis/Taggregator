@@ -22,7 +22,7 @@ class Taggregator {
 		add_action( 'taggregator_cron', array( $this, 'fetch' )              );
 		add_action( 'init',             array( $this, 'load_providers' )     );
 		add_action( 'init',             array( $this, 'register_post_type' ) );
-		add_action( 'admin_init',       array( $this, 'admin_init' )         );
+		add_action( 'admin_init',       array( $this, 'register_settings' )  );
 	}
 
 	static function get_option( $key ) {
@@ -64,7 +64,7 @@ class Taggregator {
 		register_post_type( self::POST_TYPE, $args );
 	}
 
-	function admin_init() {
+	function register_settings() {
 		add_settings_section(
 			'taggregator',
 			esc_html__( 'Taggregator Social Media Aggregator', 'taggregator' ),
