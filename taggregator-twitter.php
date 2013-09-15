@@ -101,7 +101,7 @@ class Taggregator_Twitter {
 
 	function fetch( $max_id = null, $since_id = null ) {
 		$args = array(
-			'q'           => $this->get_option( 'tag' ),
+			'q'           => urlencode( $this->get_option( 'tag' ) ),
 			'result_type' => 'recent',
 			'count'       => 100,
 		);
