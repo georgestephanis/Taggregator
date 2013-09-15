@@ -79,7 +79,8 @@ class Taggregator_Twitter {
 		);
 
 		if ( is_null( $max_id ) ) {
-			$args['max_id'] = (int) $max_id;
+			// Remember, don't cast $max_id to an int, or it will max out at 2147483647
+			$args['max_id'] = $max_id;
 		}
 
 		if ( is_null( $since_id ) ) {
@@ -97,7 +98,8 @@ class Taggregator_Twitter {
 		}
 
 		if ( $since_id ) {
-			$args['since_id'] = (int) $since_id;
+			// Remember, don't cast $since_id to an int, or it will max out at 2147483647
+			$args['since_id'] = $since_id;
 		}
 
 		$url = add_query_arg( $args, self::API_BASE );
