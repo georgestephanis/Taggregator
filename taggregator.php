@@ -57,7 +57,11 @@ class Taggregator {
 				'show_ui'           => true,
 				'show_in_menu'      => true,
 				'show_in_admin_bar' => false,
-			'supports'              => array( 'editor', 'thumbnail' ),
+			'supports'              => array(
+				'editor',
+				'thumbnail',
+				'post-formats',
+			),
 			'taxonomies'            => array( 'post_tag' ),
 			'capabilities'          => array( 'create_posts' => false ),
 		);
