@@ -136,6 +136,7 @@ class Taggregator_Twitter {
 			$args     = wp_parse_args( ltrim( $data->search_metadata->next_results, '?' ) );
 			$response = wp_remote_get( add_query_arg( $args, self::API_BASE ), $request_args );
 			$data     = json_decode( wp_remote_retrieve_body( $response ) );
+			$args['q'] = urlencode( $args['q'] );
 			$this->create_posts( $data->statuses );
 		}
 	}
