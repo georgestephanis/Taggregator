@@ -63,7 +63,7 @@ class Taggregator {
 				'post-formats',
 			),
 			'taxonomies'            => array( 'post_tag' ),
-			'capabilities'          => array( 'create_posts' => false ),
+		#	'capabilities'          => array( 'create_posts' => false ),
 		);
 
 		register_post_type( self::POST_TYPE, $args );
