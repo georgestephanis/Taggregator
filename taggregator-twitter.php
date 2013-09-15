@@ -31,21 +31,25 @@ class Taggregator_Twitter {
 	}
 
 	function register_settings() {
-		add_settings_field(
-			'taggregator_twitter_consumer_key',
-			sprintf( '<label for="taggregator_twitter_consumer_key">%1$s</label>', __( 'Twitter Consumer Key', 'taggregator' ) ),
-			array( $this, 'taggregator_twitter_consumer_key_cb' ),
-			'discussion',
-			'taggregator'
-		);
+		if ( ! defined( 'TAGGREGATOR_TWITTER_CONSUMER_KEY' ) ) {
+			add_settings_field(
+				'taggregator_twitter_consumer_key',
+				sprintf( '<label for="taggregator_twitter_consumer_key">%1$s</label>', __( 'Twitter Consumer Key', 'taggregator' ) ),
+				array( $this, 'taggregator_twitter_consumer_key_cb' ),
+				'discussion',
+				'taggregator'
+			);
+		}
 
-		add_settings_field(
-			'taggregator_twitter_consumer_secret',
-			sprintf( '<label for="taggregator_twitter_consumer_secret">%1$s</label>', __( 'Twitter Consumer Secret', 'taggregator' ) ),
-			array( $this, 'taggregator_twitter_consumer_secret_cb' ),
-			'discussion',
-			'taggregator'
-		);
+		if ( ! defined( 'TAGGREGATOR_TWITTER_CONSUMER_SECRET' ) ) {
+			add_settings_field(
+				'taggregator_twitter_consumer_secret',
+				sprintf( '<label for="taggregator_twitter_consumer_secret">%1$s</label>', __( 'Twitter Consumer Secret', 'taggregator' ) ),
+				array( $this, 'taggregator_twitter_consumer_secret_cb' ),
+				'discussion',
+				'taggregator'
+			);
+		}
 	}
 
 	function taggregator_twitter_consumer_key_cb() {
