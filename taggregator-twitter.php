@@ -159,7 +159,7 @@ class Taggregator_Twitter {
 			'post_status' => 'publish',
 			'post_content' => $tweet_url,
 			'post_excerpt' => $tweet->text,
-			'tags_input' => $hashtags ? implode( ', ', $hashtags ) : '';
+			'tags_input' => $hashtags ? implode( ', ', $hashtags ) : '',
 		) );
 
 		set_post_format(  $post_id, 'status' );
