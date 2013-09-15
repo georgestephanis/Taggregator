@@ -25,7 +25,7 @@ class Taggregator {
 		add_action( 'admin_init',       array( $this, 'admin_init' )         );
 	}
 
-	function get_option( $key ) {
+	static function get_option( $key ) {
 		$options = get_option( 'taggregator_options', array() );
 		if ( isset( $options[ $key ] ) ) {
 			return $options[ $key ];
