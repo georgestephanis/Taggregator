@@ -14,12 +14,15 @@ class Taggregator {
 
 	static $instance;
 
+	const POST_TYPE = 'social_post';
+
 	function __construct() {
 		self::$instance = $this;
 
 		add_action( 'taggregator_cron', array( $this, 'fetch' )          );
 		add_action( 'init',             array( $this, 'load_providers' ) );
 		add_action( 'admin_init',       array( $this, 'admin_init' )     );
+		add_action( 'init',             array( $this, 'register_post_type' ) );
 	}
 
 	function get_option( $key ) {
@@ -28,6 +31,37 @@ class Taggregator {
 			return $options[ $key ];
 		}
 		return null;
+	}
+
+	function register_post_type() {
+		$labels = array( 
+			'name'               => _x( 'Social Posts',                   'social_post', 'taggregator' ),
+			'singular_name'      => _x( 'Social Post',                    'social_post', 'taggregator' ),
+			'add_new'            => _x( 'Add New',                        'social_post', 'taggregator' ),
+			'all_items'          => _x( 'Social Posts',                   'social_post', 'taggregator' ),
+			'add_new_item'       => _x( 'Add New Social Post',            'social_post', 'taggregator' ),
+			'edit_item'          => _x( 'Edit Social Post',               'social_post', 'taggregator' ),
+			'new_item'           => _x( 'New Social Post',                'social_post', 'taggregator' ),
+			'view_item'          => _x( 'View Social Post',               'social_post', 'taggregator' ),
+			'search_items'       => _x( 'Search Social Posts',            'social_post', 'taggregator' ),
+			'not_found'          => _x( 'No social posts found',          'social_post', 'taggregator' ),
+			'not_found_in_trash' => _x( 'No social posts found in Trash', 'social_post', 'taggregator' ),
+			'parent_item_colon'  => _x( 'Parent Social Post:',            'social_post', 'taggregator' ),
+			'menu_name'          => _x( 'Social Posts',                   'social_post', 'taggregator' ),
+		);
+
+		$args = array( 
+			'labels'                => $labels,
+			'hierarchical'          => false,
+			'public'                => false,
+				'show_ui'           => true,
+				'show_in_menu'      => true,
+				'show_in_admin_bar' => false,
+			'supports'              => array( 'editor', 'thumbnail' ),
+			'capabilities'          => array( 'create_posts' => false ),
+		);
+
+		register_post_type( self::POST_TYPE, $args );
 	}
 
 	function admin_init() {
