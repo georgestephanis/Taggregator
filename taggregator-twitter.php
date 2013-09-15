@@ -129,8 +129,8 @@ class Taggregator_Twitter {
 		);
 
 		$response = wp_remote_get( add_query_arg( $args, self::API_BASE ), $request_args );
+		$data     = json_decode( wp_remote_retrieve_body( $response ) );
 
-		$data = json_decode( wp_remote_retrieve_body( $response ) );
 
 		// Now, do something with $data.
 	}
