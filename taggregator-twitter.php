@@ -10,6 +10,10 @@ class Taggregator_Twitter {
 		self::$instance = $this;
 
 		add_action( 'taggregator_cron_active', array( $this, 'fetch' ) );
+	static function get_option( $key ) {
+		return Taggregator::get_option( $key );
+	}
+
 	}
 
 	function fetch( $max_id = null, $since_id = null ) {

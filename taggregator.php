@@ -88,6 +88,8 @@ class Taggregator {
 			'taggregator'
 		);
 
+		do_action( 'taggregator_register_settings' );
+
 		register_setting( 'discussion', 'taggregator_options', array( $this, 'sanitize_options' ) );
 	}
 
@@ -117,7 +119,7 @@ class Taggregator {
 		$options['active'] = ! empty( $options['active'] );
 		$options['tag']    = sanitize_text_field( $options['tag'] );
 
-		return $options;
+		return apply_filters( 'taggregator_sanitize_options', $options );
 	}
 
 	function load_providers() {
@@ -138,12 +140,12 @@ class Taggregator {
 
 	function fetch() {
 		if ( $this->get_option( 'active' ) ) {
-			do_action( 'taggerator_cron_active' );
+			do_action( 'taggregator_cron_active' );
 		}
 	}
 
 	static function on_activation() {
-		wp_schedule_event( time(), 'hourly', 'taggerator_cron' );
+		wp_schedule_event( time(), 'hourly', 'taggregator_cron' );
 	}
 
 	static function on_deactivation() {
