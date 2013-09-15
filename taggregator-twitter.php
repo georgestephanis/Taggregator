@@ -155,11 +155,12 @@ class Taggregator_Twitter {
 		$tweet_url = sprintf( 'https://twitter.com/%1$s/status/%2$s', $tweet->user->id_str, $tweet->id_str );
 
 		$post_id = wp_insert_post( array(
-			'post_type' => Taggregator::POST_TYPE,
-			'post_status' => 'publish',
-			'post_content' => $tweet_url,
-			'post_excerpt' => $tweet->text,
-			'tags_input' => $hashtags ? implode( ', ', $hashtags ) : '',
+			'post_type'     => Taggregator::POST_TYPE,
+			'post_status'   => 'publish',
+			'post_title'    => $tweet->text,
+			'post_content'  => $tweet_url,
+			'post_excerpt'  => $tweet->text,
+			'tags_input'    => $hashtags ? implode( ', ', $hashtags ) : '',
 		) );
 
 		set_post_format(  $post_id, 'status' );
