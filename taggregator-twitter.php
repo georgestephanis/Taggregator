@@ -76,6 +76,10 @@ class Taggregator_Twitter {
 	}
 
 	function get_bearer_token() {
+		if ( ! empty( $this->bearer_token ) ) {
+			return $this->bearer_token;
+		}
+
 		$consumer_key    = urlencode( $this->get_option( 'twitter_consumer_key' ) );
 		$consumer_secret = urlencode( $this->get_option( 'twitter_consumer_secret' ) );
 		$credentials     = base64_encode( sprintf( '%1$s:%2$s', $consumer_key, $consumer_secret ) );
