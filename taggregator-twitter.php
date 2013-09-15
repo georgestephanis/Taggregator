@@ -133,10 +133,10 @@ class Taggregator_Twitter {
 		$this->create_posts( $data->statuses );
 
 		while ( 100 == count( $data->statuses ) ) {
-			$args     = wp_parse_args( ltrim( $data->search_metadata->next_results, '?' ) );
-			$response = wp_remote_get( add_query_arg( $args, self::API_BASE ), $request_args );
-			$data     = json_decode( wp_remote_retrieve_body( $response ) );
+			$args      = wp_parse_args( ltrim( $data->search_metadata->next_results, '?' ) );
 			$args['q'] = urlencode( $args['q'] );
+			$response  = wp_remote_get( add_query_arg( $args, self::API_BASE ), $request_args );
+			$data      = json_decode( wp_remote_retrieve_body( $response ) );
 			$this->create_posts( $data->statuses );
 		}
 	}
