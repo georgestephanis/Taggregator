@@ -11,6 +11,18 @@ class Taggregator_Twitter {
 
 		add_action( 'taggregator_cron_active', array( $this, 'fetch' ) );
 	static function get_option( $key ) {
+		// Constant overrides to permit defining this globally for a multisite environment.
+		switch( $key ) {
+			case 'twitter_consumer_key' :
+				if ( defined( 'TAGGREGATOR_TWITTER_CONSUMER_KEY' ) ) {
+					return TAGGREGATOR_TWITTER_CONSUMER_KEY;
+				}
+			case 'twitter_consumer_secret' :
+				if ( defined( 'TAGGREGATOR_TWITTER_CONSUMER_SECRET' ) ) {
+					return TAGGREGATOR_TWITTER_CONSUMER_SECRET;
+				}
+		}
+
 		return Taggregator::get_option( $key );
 	}
 
