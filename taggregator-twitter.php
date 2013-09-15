@@ -105,7 +105,7 @@ class Taggregator_Twitter {
 
 	function fetch() {
 		$args = array(
-			'q'           => urlencode( $this->get_option( 'tag' ) ),
+			'q'           => urlencode( $this->prefix_with_hashtag( $this->get_option( 'tag' ) ) ),
 			'result_type' => 'recent',
 			'count'       => 100,
 		);
@@ -135,6 +135,9 @@ class Taggregator_Twitter {
 		// Now, do something with $data.
 	}
 
+	static function prefix_with_hashtag( $string ) {
+		return '#' . ltrim( trim( $string ), '#' );
+	}
 }
 
 new Taggregator_Twitter;
