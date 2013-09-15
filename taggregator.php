@@ -10,7 +10,7 @@
  */
 
 class Taggregator {
-	var $options;
+	var $providers;
 
 	static $instance;
 
@@ -121,12 +121,15 @@ class Taggregator {
 	}
 
 	function load_providers() {
-		$providers = apply_filters( 'taggregator_providers', array(
+		// Make sure we only load the providers once.
+		if ( $this->providers ) return false;
+
+		$this->providers = apply_filters( 'taggregator_providers', array(
 			'Twitter'   => plugin_dir_path( __FILE__ ) . 'taggregator-twitter.php',
 			'Instagram' => plugin_dir_path( __FILE__ ) . 'taggregator-instagram.php',
 		) );
 
-		foreach( $providers as $service => $file ) {
+		foreach( $this->providers as $service => $file ) {
 			if ( is_readable( $file ) ) {
 				include_once( $file );
 			}
