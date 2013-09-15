@@ -103,35 +103,23 @@ class Taggregator_Twitter {
 		}
 	}
 
-	function fetch( $max_id = null, $since_id = null ) {
+	function fetch() {
 		$args = array(
 			'q'           => urlencode( $this->get_option( 'tag' ) ),
 			'result_type' => 'recent',
 			'count'       => 100,
 		);
 
-		if ( is_null( $max_id ) ) {
-			// Remember, don't cast $max_id to an int, or it will max out at 2147483647
-			$args['max_id'] = $max_id;
-		}
+		$latest_existing_tweets = get_posts( array(
+			'post_type'      => Taggregator::POST_TYPE,
+			'meta_key'       => 'tweet_id',
+			'orderby'        => 'meta_value_num',
+			'order'          => 'desc',
+			'posts_per_page' => 1,
+		) );
 
-		if ( is_null( $since_id ) ) {
-			$latest_existing_tweets = get_posts( array(
-				'post_type'      => Taggregator::POST_TYPE,
-				'meta_key'       => 'tweet_id',
-				'orderby'        => 'meta_value_num',
-				'order'          => 'desc',
-				'posts_per_page' => 1,
-			) );
-
-			if ( $latest_existing_tweets ) {
-				$since_id = get_post_meta( $latest_existing_tweets[0]->ID, 'tweet_id', true );
-			}
-		}
-
-		if ( $since_id ) {
-			// Remember, don't cast $since_id to an int, or it will max out at 2147483647
-			$args['since_id'] = $since_id;
+		if ( $latest_existing_tweets ) {
+			$args['since_id'] = get_post_meta( $latest_existing_tweets[0]->ID, 'tweet_id', true );
 		}
 
 		$request_args = array(
