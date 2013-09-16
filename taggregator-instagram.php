@@ -52,14 +52,19 @@ class Taggregator_Instagram {
 	function fetch() {
 		$args = array(
 			'access_token' => urlencode( $this->strip_hashtag( $this->get_option( 'instagram_access_token' ) ) ),
+			'min_tag_id'   => get_option( 'taggregator_instagram_next_min_id', null ),
 		);
-
-		// Cache the min_tag_id from the response. Can't query by media_id.
 
 		$api_base = sprintf( 'https://api.instagram.com/v1/tags/%1$s/media/recent', urlencode( $this->strip_hashtag( $this->get_option( 'tag' ) ) ) );
 		echo '<strong>' . add_query_arg( $args, $api_base ) . '</strong>';
 		$response = wp_remote_get( add_query_arg( $args, $api_base ) );
 		$data     = json_decode( wp_remote_retrieve_body( $response ) );
+
+		// Make sure that the option isn't autoloaded.
+		if ( ! add_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id, null, 'no' ) ) {
+			update_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id );
+		}
+
 		$this->create_posts( $data->data );
 	}
 
