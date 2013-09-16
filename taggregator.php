@@ -153,6 +153,7 @@ class Taggregator {
 
 	function fetch() {
 		if ( $this->get_option( 'active' ) ) {
+			$this->load_providers();
 			do_action( 'taggregator_cron_active' );
 		}
 	}
