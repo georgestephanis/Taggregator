@@ -60,8 +60,10 @@ class Taggregator_Instagram {
 		$data     = json_decode( wp_remote_retrieve_body( $response ) );
 
 		// Make sure that the option isn't autoloaded.
-		if ( ! add_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id, null, 'no' ) ) {
-			update_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id );
+		if ( ! empty( $data->pagination->next_min_id ) ) {
+			if ( ! add_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id, null, 'no' ) ) {
+				update_option( 'taggregator_instagram_next_min_id', $data->pagination->next_min_id );
+			}
 		}
 
 		$this->create_posts( $data->data );
