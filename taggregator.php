@@ -137,7 +137,7 @@ class Taggregator {
 
 	function load_providers() {
 		// Make sure we only load the providers once.
-		if ( $this->providers ) return false;
+		if ( ! empty( $this->providers ) ) return false;
 
 		$this->providers = apply_filters( 'taggregator_providers', array(
 			'Twitter'   => plugin_dir_path( __FILE__ ) . 'taggregator-twitter.php',
