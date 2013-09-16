@@ -39,7 +39,7 @@ class Taggregator_Instagram {
 	function taggregator_instagram_access_token_cb() {
 		?>
 		<input class="regular-text code" type="text" id="taggregator_instagram_access_token" name="taggregator_options[instagram_access_token]" value="<?php echo esc_attr( $this->get_option( 'instagram_access_token' ) ); ?>" />
-		<?php $this->fetch();
+		<?php
 	}
 
 	function sanitize_options( $options ) {
