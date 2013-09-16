@@ -23,6 +23,7 @@ class Taggregator {
 		add_action( 'init',             array( $this, 'register_post_type' ) );
 		add_action( 'admin_init',       array( $this, 'load_providers' )     );
 		add_action( 'admin_init',       array( $this, 'register_settings' )  );
+		add_action( 'admin_init',       array( $this, 'catch_manual_run' )   );
 	}
 
 	static function get_option( $key ) {
@@ -67,6 +68,12 @@ class Taggregator {
 		);
 
 		register_post_type( self::POST_TYPE, $args );
+	}
+
+	function catch_manual_run() {
+		if ( isset( $_GET['taggregator_cron_active'] ) && current_user_can( 'manage_options' ) ) {
+			do_action( 'taggregator_cron_active' );
+		}
 	}
 
 	function register_settings() {
