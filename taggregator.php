@@ -24,6 +24,7 @@ class Taggregator {
 		add_action( 'admin_init',       array( $this, 'load_providers' )     );
 		add_action( 'admin_init',       array( $this, 'register_settings' )  );
 		add_action( 'admin_init',       array( $this, 'catch_manual_run' )   );
+		add_shortcode( 'taggregator',   array( $this, 'shortcode' )          );
 	}
 
 	static function get_option( $key ) {
@@ -154,6 +155,30 @@ class Taggregator {
 		if ( $this->get_option( 'active' ) ) {
 			do_action( 'taggregator_cron_active' );
 		}
+	}
+
+	function shortcode( $atts ) {
+		$atts = shortcode_atts( array(
+			'qty' => '30',
+		), $atts );
+
+		$args = apply_filters( 'taggregator_shortcode_args', array(
+			'post_type'      => self::POST_TYPE,
+			'posts_per_page' => (int) $atts['qty'],
+		) );
+
+		$taggregator_query = new WP_Query( $args );
+
+		ob_start();
+		while ( $taggregator_query->have_posts() ) : $taggregator_query->the_post();
+		?>
+		<aside id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+			<?php the_content(); ?>
+		</aside>
+		<?php
+		endwhile;
+		wp_reset_postdata();
+		return apply_filters( 'taggregator_shortcode_results', ob_get_clean() );
 	}
 
 	static function on_activation() {
