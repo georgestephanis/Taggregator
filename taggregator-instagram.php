@@ -56,7 +56,6 @@ class Taggregator_Instagram {
 		);
 
 		$api_base = sprintf( 'https://api.instagram.com/v1/tags/%1$s/media/recent', urlencode( $this->strip_hashtag( $this->get_option( 'tag' ) ) ) );
-		echo '<strong>' . add_query_arg( $args, $api_base ) . '</strong>';
 		$response = wp_remote_get( add_query_arg( $args, $api_base ) );
 		$data     = json_decode( wp_remote_retrieve_body( $response ) );
 
