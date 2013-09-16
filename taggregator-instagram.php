@@ -39,6 +39,8 @@ class Taggregator_Instagram {
 	function taggregator_instagram_access_token_cb() {
 		?>
 		<input class="regular-text code" type="text" id="taggregator_instagram_access_token" name="taggregator_options[instagram_access_token]" value="<?php echo esc_attr( $this->get_option( 'instagram_access_token' ) ); ?>" />
+		<p><em><a href="http://instagram.com/developer/" target="_blank"><?php _e( 'You can register a new app and request your access token here', 'taggregator' ); ?></a></em></p>
+		<p><em><a href="http://instagram.com/developer/endpoints/tags/" target="_blank"><?php _e( 'Once done, you can copy the access token from the end of any of the URLs on this page', 'taggregator' ); ?></a></em></p>
 		<?php
 	}
 
